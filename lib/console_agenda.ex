@@ -1,18 +1,13 @@
 defmodule ConsoleAgenda do
-  @moduledoc """
-  Documentation for `ConsoleAgenda`.
-  """
+  alias ConsoleAgenda.{Repo, Contact}
 
-  @doc """
-  Hello world.
+  def list_contacts do
+    Repo.all(Contact)
+  end
 
-  ## Examples
-
-      iex> ConsoleAgenda.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def create_contact(attrs) do
+    %Contact{}
+    |> Contact.changeset(attrs)
+    |> Repo.insert()
   end
 end
