@@ -1,4 +1,4 @@
-defmodule Agenda.Contact do
+defmodule ConsoleAgenda.Contact do
   use Ecto.Schema
 
   schema "contacts" do
