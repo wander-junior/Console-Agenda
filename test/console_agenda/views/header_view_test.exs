@@ -5,15 +5,12 @@ defmodule ConsoleAgenda.Views.HeaderViewTest do
 
   describe "render_header/0" do
     test "return correct header" do
-      fixed_datetime = ~N[2025-01-13 12:00:00]
-      expected_response = "########| AGENDA DE CONTATOS | #{fixed_datetime} |########\n"
-
-
       message = capture_io(fn ->
-        ConsoleAgenda.Views.HeaderView.render_header(fixed_datetime)
+        ConsoleAgenda.Views.HeaderView.render_header()
       end)
 
-      assert expected_response == message
+      assert message =~ "AGENDA DE CONTATOS"
+      assert message =~ Calendar.strftime(NaiveDateTime.utc_now(), "%d/%m/%y - %H:%M")
     end
   end
 end
