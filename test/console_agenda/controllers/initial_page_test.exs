@@ -5,9 +5,10 @@ defmodule ConsoleAgenda.Controllers.InitialPageTest do
 
   describe "start/0" do
     test "render all static infos" do
-      message = capture_io(fn ->
-        ConsoleAgenda.Controllers.InitialPage.start()
-      end)
+      message =
+        capture_io(fn ->
+          ConsoleAgenda.Controllers.InitialPage.start()
+        end)
 
       assert message =~ "AGENDA DE CONTATOS"
       assert message =~ Calendar.strftime(NaiveDateTime.utc_now(), "%d/%m/%y - %H:%M")

@@ -5,9 +5,10 @@ defmodule ConsoleAgenda.Views.HeaderViewTest do
 
   describe "render_header/1" do
     test "return correct header" do
-      message = capture_io(fn ->
-        ConsoleAgenda.Views.HeaderView.render_header("Minha notificação")
-      end)
+      message =
+        capture_io(fn ->
+          ConsoleAgenda.Views.HeaderView.render_header("Minha notificação")
+        end)
 
       assert message =~ "AGENDA DE CONTATOS"
       assert message =~ Calendar.strftime(NaiveDateTime.utc_now(), "%d/%m/%y - %H:%M")
