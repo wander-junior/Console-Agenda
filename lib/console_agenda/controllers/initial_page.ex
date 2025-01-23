@@ -11,7 +11,7 @@ defmodule ConsoleAgenda.Controllers.InitialPage do
     paginated_and_render()
   end
 
-  defp paginated_and_render(cursor \\ %{}) do
+  defp paginated_and_render(cursor \\ %{}, current_page \\ 1) do
     query = from(c in Contact, order_by: [asc: c.inserted_at, asc: c.id])
 
     %{entries: entries, metadata: metadata} =
@@ -24,25 +24,25 @@ defmodule ConsoleAgenda.Controllers.InitialPage do
         before: Map.get(cursor, :before)
       )
 
-      render(entries, metadata)
+      render(entries, metadata, current_page)
   end
 
-  defp render(entries, metadata) do
-    Views.ContactTableView.render_table(entries, metadata.total_count)
-    handle_menu_input(entries, metadata)
+  defp render(entries, metadata, current_page) do
+    Views.ContactTableView.render_table(entries, metadata, current_page)
+    handle_menu_input(entries, metadata, current_page)
   end
 
-  defp handle_menu_input(entries, curr_metadata) do
+  defp handle_menu_input(entries, curr_metadata, current_page) do
     opt =
       IO.gets("Selecione uma opção > ")
       |> String.downcase()
 
     cond do
-      opt == "a\n" ->
-        paginated_and_render(%{before: curr_metadata.before})
+      opt == "a\n" and curr_metadata.before ->
+        paginated_and_render(%{before: curr_metadata.before}, max(current_page - 1, 1))
 
-      opt == "p\n" ->
-        paginated_and_render(%{after: curr_metadata.after})
+      opt == "p\n" and curr_metadata.after ->
+        paginated_and_render(%{after: curr_metadata.after}, current_page + 1)
 
       opt == "i\n" ->
         IO.puts("Inserir Contato")
@@ -58,7 +58,7 @@ defmodule ConsoleAgenda.Controllers.InitialPage do
 
       true ->
         IO.puts("Digite uma opção válida")
-        render(entries, curr_metadata)
+        render(entries, curr_metadata, current_page)
     end
   end
 end

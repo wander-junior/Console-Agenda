@@ -1,9 +1,9 @@
 defmodule ConsoleAgenda.Views.ContactTableView do
-  def render_table(contacts, total_count) do
-    amount_message(total_count)
+  def render_table(contacts, metadata, current_page) do
+    amount_message(metadata.total_count)
     table_header()
     contacts_table(contacts)
-    table_footer(total_count)
+    table_footer(metadata, current_page)
     table_menu()
   end
 
@@ -45,16 +45,26 @@ defmodule ConsoleAgenda.Views.ContactTableView do
     end)
   end
 
-  defp table_footer(total_count) do
+  defp table_footer(metadata, current_page) do
     total_pages =
-      Float.ceil(total_count / 5)
+      Float.ceil(metadata.total_count / 5)
       |> trunc()
       |> Integer.to_string()
       |> String.pad_leading(2, "0")
 
-    IO.puts("#{String.duplicate("-", 47)}[Página 01 de #{total_pages}]-")
-    IO.puts("\t[A]: Página Anterior    [P]: Próxima página")
-    IO.puts(String.duplicate("-", 65))
+    formated_curr_page = Integer.to_string(current_page) |> String.pad_leading(2, "0")
+
+    IO.puts("#{String.duplicate("-", 47)}[Página #{formated_curr_page} de #{total_pages}]-")
+
+    if metadata.before do
+      IO.write("\t[A]: Página Anterior")
+    end
+
+    if metadata.after do
+      IO.write("\t[P]: Próxima página")
+    end
+
+    IO.puts("")
   end
 
   defp table_menu do
