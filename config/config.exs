@@ -1,9 +1,11 @@
 import Config
 
 config :console_agenda, ConsoleAgenda.Repo,
-  database: "console_agenda_repo",
+  database: "postgres",
   username: "postgres",
-  password: "postgres",
-  hostname: "localhost"
+  password: "1234",
+  hostname: "localhost",
+  log: false
+
 
 config :console_agenda, ecto_repos: [ConsoleAgenda.Repo]

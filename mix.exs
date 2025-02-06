@@ -23,6 +23,7 @@ defmodule ConsoleAgenda.MixProject do
     [
       {:ecto_sql, "~> 3.10"},
       {:postgrex, "~> 0.17"},
+      {:paginator, "~> 1.2.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
   end
