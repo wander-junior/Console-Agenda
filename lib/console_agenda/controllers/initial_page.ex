@@ -4,8 +4,6 @@ defmodule ConsoleAgenda.Controllers.InitialPage do
   import Ecto.Query
 
   def start do
-    Views.HeaderView.render_header(@notification_message)
-
     Repo.start_link()
 
     paginated_and_render()
@@ -24,18 +22,21 @@ defmodule ConsoleAgenda.Controllers.InitialPage do
         before: Map.get(cursor, :before)
       )
 
-      render(entries, metadata, current_page)
+    render(entries, metadata, current_page)
   end
 
   defp render(entries, metadata, current_page) do
+    Views.HeaderView.render_header(@notification_message)
     Views.ContactTableView.render_table(entries, metadata, current_page)
     handle_menu_input(entries, metadata, current_page)
   end
 
   defp handle_menu_input(entries, curr_metadata, current_page) do
     opt =
-      IO.gets("Selecione uma opção > ")
-      |> String.downcase()
+      case IO.gets("Selecione uma opção > ") do
+        :eof -> ""
+        input -> String.downcase(input)
+      end
 
     cond do
       opt == "a\n" and curr_metadata.before ->

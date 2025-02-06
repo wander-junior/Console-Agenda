@@ -8,6 +8,14 @@ defmodule ConsoleAgenda.Views.ContactTableViewTest do
 
   describe "render_table/1" do
     test "return correct info" do
+      metadata = %Paginator.Page.Metadata{
+      after: "cursor",
+      before: nil,
+      limit: 5,
+      total_count: 8,
+      total_count_cap_exceeded: false
+    }
+
       contacts = [
         %Contact{
           id: 1,
@@ -40,10 +48,10 @@ defmodule ConsoleAgenda.Views.ContactTableViewTest do
 
       message =
         capture_io(fn ->
-          ContactTableView.render_table(contacts)
+          ContactTableView.render_table(contacts, metadata, 1)
         end)
 
-      assert message =~ "Há um total de 03 contatos registrados"
+      assert message =~ "Há um total de 08 contatos registrados"
 
       assert message =~ "John Doe"
       assert message =~ "123-456-7890"
