@@ -9,7 +9,11 @@ defmodule ConsoleAgenda.Controllers.InitialPage do
     paginated_and_render()
   end
 
-  def paginated_and_render(cursor \\ %{}, current_page \\ 1, notification_message \\ @notification_message) do
+  def paginated_and_render(
+        cursor \\ %{},
+        current_page \\ 1,
+        notification_message \\ @notification_message
+      ) do
     query = from(c in Contact, order_by: [asc: c.inserted_at, asc: c.id])
 
     %{entries: entries, metadata: metadata} =

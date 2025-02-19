@@ -1,5 +1,4 @@
 defmodule ConsoleAgenda.Controllers.InsertPage do
-  alias ConsoleAgenda.Contact
   alias ConsoleAgenda.Controllers
   alias ConsoleAgenda.Views.InsertView
 
@@ -20,7 +19,12 @@ defmodule ConsoleAgenda.Controllers.InsertPage do
 
     contact_type = IO.gets("Selecione uma opção > ") |> String.trim() |> get_contact_type()
 
-    insert_contact(%ConsoleAgenda.Contact{first_name: name, last_name: last_name, phone_number: phone_number, contact_type: contact_type})
+    insert_contact(%ConsoleAgenda.Contact{
+      first_name: name,
+      last_name: last_name,
+      phone_number: phone_number,
+      contact_type: contact_type
+    })
   end
 
   defp get_contact_type(number_type) do
@@ -36,7 +40,7 @@ defmodule ConsoleAgenda.Controllers.InsertPage do
 
   defp insert_contact(contact) do
     case ConsoleAgenda.Repo.insert(contact) do
-      {:ok, _} -> Controllers.InitialPage.paginated_and_render()
+      {:ok, _} -> Controllers.InitialPage.paginated_and_render(%{}, 1, "Contato inserido com sucesso")
       {:error, _} -> IO.puts("Falha ao inserir contato")
     end
   end
