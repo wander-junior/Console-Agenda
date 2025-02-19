@@ -1,5 +1,5 @@
 defmodule ConsoleAgenda.Controllers.InitialPage do
-  alias ConsoleAgenda.{Repo, Contact, Views}
+  alias ConsoleAgenda.{Repo, Contact, Views, Controllers}
   @notification_message "Seja Bem Vindo(a)! (:D). E fique a vontade."
   import Ecto.Query
 
@@ -9,7 +9,7 @@ defmodule ConsoleAgenda.Controllers.InitialPage do
     paginated_and_render()
   end
 
-  defp paginated_and_render(cursor \\ %{}, current_page \\ 1) do
+  def paginated_and_render(cursor \\ %{}, current_page \\ 1, notification_message \\ @notification_message) do
     query = from(c in Contact, order_by: [asc: c.inserted_at, asc: c.id])
 
     %{entries: entries, metadata: metadata} =
@@ -22,11 +22,11 @@ defmodule ConsoleAgenda.Controllers.InitialPage do
         before: Map.get(cursor, :before)
       )
 
-    render(entries, metadata, current_page)
+    render(entries, metadata, current_page, notification_message)
   end
 
-  defp render(entries, metadata, current_page) do
-    Views.HeaderView.render_header(@notification_message)
+  defp render(entries, metadata, current_page, notification_message) do
+    Views.HeaderView.render_header(notification_message)
     Views.ContactTableView.render_table(entries, metadata, current_page)
     handle_menu_input(entries, metadata, current_page)
   end
@@ -46,7 +46,7 @@ defmodule ConsoleAgenda.Controllers.InitialPage do
         paginated_and_render(%{after: curr_metadata.after}, current_page + 1)
 
       opt == "i\n" ->
-        IO.puts("Inserir Contato")
+        Controllers.InsertPage.render_insert()
 
       opt == "r\n" ->
         IO.puts("Remover Contato")
@@ -58,8 +58,7 @@ defmodule ConsoleAgenda.Controllers.InitialPage do
         IO.puts("Sair")
 
       true ->
-        IO.puts("Digite uma opção válida")
-        render(entries, curr_metadata, current_page)
+        render(entries, curr_metadata, current_page, "Digite uma opção válida")
     end
   end
 end

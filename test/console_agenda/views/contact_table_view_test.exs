@@ -9,12 +9,12 @@ defmodule ConsoleAgenda.Views.ContactTableViewTest do
   describe "render_table/1" do
     test "return correct info" do
       metadata = %Paginator.Page.Metadata{
-      after: "cursor",
-      before: nil,
-      limit: 5,
-      total_count: 8,
-      total_count_cap_exceeded: false
-    }
+        after: "cursor",
+        before: nil,
+        limit: 5,
+        total_count: 8,
+        total_count_cap_exceeded: false
+      }
 
       contacts = [
         %Contact{
