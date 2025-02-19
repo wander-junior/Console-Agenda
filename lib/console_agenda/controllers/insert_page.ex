@@ -2,6 +2,9 @@ defmodule ConsoleAgenda.Controllers.InsertPage do
   alias ConsoleAgenda.Controllers
   alias ConsoleAgenda.Views.InsertView
 
+  @sucess_message "Contato inserido com sucesso"
+  @error_message "Falha ao inserir o contato"
+
   def render_insert do
     InsertView.insert_header()
 
@@ -40,8 +43,8 @@ defmodule ConsoleAgenda.Controllers.InsertPage do
 
   defp insert_contact(contact) do
     case ConsoleAgenda.Repo.insert(contact) do
-      {:ok, _} -> Controllers.InitialPage.paginated_and_render(%{}, 1, "Contato inserido com sucesso")
-      {:error, _} -> IO.puts("Falha ao inserir contato")
+      {:ok, _} -> Controllers.InitialPage.paginated_and_render(%{}, 1, @sucess_message)
+      {:error, _} -> Controllers.InitialPage.paginated_and_render(%{}, 1, @error_message)
     end
   end
 end
