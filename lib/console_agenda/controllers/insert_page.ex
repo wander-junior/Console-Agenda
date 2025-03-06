@@ -1,4 +1,5 @@
 defmodule ConsoleAgenda.Controllers.InsertPage do
+  alias ConsoleAgenda.Views.ContactView
   alias ConsoleAgenda.Controllers
   alias ConsoleAgenda.Views.InsertView
 
@@ -20,29 +21,22 @@ defmodule ConsoleAgenda.Controllers.InsertPage do
 
     InsertView.header_step_four(name, last_name, phone_number)
 
-    contact_type = IO.gets("Selecione uma opção > ") |> String.trim() |> get_contact_type()
+    contact_type =
+      IO.gets("Selecione uma opção > ")
+      |> String.trim()
+      |> ContactView.get_contact_type()
 
-    insert_contact(%ConsoleAgenda.Contact{
+    ConsoleAgenda.Contact.changeset(%{
       first_name: name,
       last_name: last_name,
       phone_number: phone_number,
       contact_type: contact_type
     })
+    |> insert_contact()
   end
 
-  defp get_contact_type(number_type) do
-    case number_type do
-      "1" -> "Cônjugue"
-      "2" -> "Namorado(a)"
-      "3" -> "Amigo(a)"
-      "4" -> "Família"
-      "5" -> "Trabalho"
-      "6" -> "Conhecido(a)"
-    end
-  end
-
-  defp insert_contact(contact) do
-    case ConsoleAgenda.Repo.insert(contact) do
+  defp insert_contact(changeset) do
+    case ConsoleAgenda.Repo.insert(changeset) do
       {:ok, _} -> Controllers.InitialPage.paginated_and_render(%{}, 1, @sucess_message)
       {:error, _} -> Controllers.InitialPage.paginated_and_render(%{}, 1, @error_message)
     end

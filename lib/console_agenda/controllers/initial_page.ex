@@ -53,13 +53,13 @@ defmodule ConsoleAgenda.Controllers.InitialPage do
         Controllers.InsertPage.render_insert()
 
       opt == "r\n" ->
-        IO.puts("Remover Contato")
+        Controllers.RemovePage.render_remove_page()
 
       opt == "e\n" ->
-        IO.puts("Editar Contato")
+        Controllers.EditPage.edit_render()
 
       opt == "s\n" ->
-        IO.puts("Sair")
+        Views.ExitMessage.render_exit_message()
 
       true ->
         render(entries, curr_metadata, current_page, "Digite uma opção válida")

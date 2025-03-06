@@ -20,13 +20,6 @@ defmodule ConsoleAgenda.Views.InsertView do
   def header_step_four(name, last_name, phone_number) do
     header_step_three(name, last_name)
     IO.puts("Número com DDD: #{phone_number}")
-    type_list()
-  end
-
-  defp type_list() do
-    IO.puts("---------| Tipo de Contato |---------")
-    IO.puts("[1] Cônjugue   [2] Namorado(a)")
-    IO.puts("[3] Amigo(a)   [4] Família")
-    IO.puts("[5] Trabalho   [6] Conhecido")
+    Views.ContactView.type_list()
   end
 end
