@@ -1,5 +1,4 @@
 defmodule ConsoleAgenda.Controllers.InsertPage do
-  alias ConsoleAgenda.Views.ContactView
   alias ConsoleAgenda.Controllers
   alias ConsoleAgenda.Views.InsertView
 
@@ -7,31 +6,11 @@ defmodule ConsoleAgenda.Controllers.InsertPage do
   @error_message "Falha ao inserir o contato"
 
   def render_insert do
-    InsertView.insert_header()
-
-    name = IO.gets("Digite o nome do novo contato > ") |> String.trim()
-
-    InsertView.header_step_two(name)
-
-    last_name = IO.gets("Digite o sobrenome do novo contato > ") |> String.trim()
-
-    InsertView.header_step_three(name, last_name)
-
-    phone_number = IO.gets("Digite o número de telefone (com DDD) > ") |> String.trim()
-
-    InsertView.header_step_four(name, last_name, phone_number)
-
-    contact_type =
-      IO.gets("Selecione uma opção > ")
-      |> String.trim()
-      |> ContactView.get_contact_type()
-
-    ConsoleAgenda.Contact.changeset(%{
-      first_name: name,
-      last_name: last_name,
-      phone_number: phone_number,
-      contact_type: contact_type
-    })
+    InsertView.name_prompt()
+    |> InsertView.last_name_prompt()
+    |> InsertView.phone_prompt()
+    |> InsertView.contact_type_prompt()
+    |> ConsoleAgenda.Contact.changeset()
     |> insert_contact()
   end
 
