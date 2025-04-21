@@ -7,5 +7,4 @@ config :console_agenda, ConsoleAgenda.Repo,
   hostname: "localhost",
   log: false
 
-
 config :console_agenda, ecto_repos: [ConsoleAgenda.Repo]

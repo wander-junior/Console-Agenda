@@ -16,3 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Header view
 - Contact table view
 - Initial page controller
+- Clean page after every rendering
+- Insert page
+- Exit program option
+- Edit page
+- Remove page

@@ -1,5 +1,6 @@
 defmodule ConsoleAgenda.Views.HeaderView do
   def render_header(notification_text) do
+    IO.write("\e[H\e[2J")
     IO.puts("##############| AGENDA DE CONTATOS | #{format_date()} |##############")
     render_notification(notification_text)
   end

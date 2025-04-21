@@ -9,12 +9,12 @@ defmodule ConsoleAgenda.Views.ContactTableViewTest do
   describe "render_table/1" do
     test "return correct info" do
       metadata = %Paginator.Page.Metadata{
-      after: "cursor",
-      before: nil,
-      limit: 5,
-      total_count: 8,
-      total_count_cap_exceeded: false
-    }
+        after: "cursor",
+        before: nil,
+        limit: 5,
+        total_count: 8,
+        total_count_cap_exceeded: false
+      }
 
       contacts = [
         %Contact{
@@ -67,6 +67,46 @@ defmodule ConsoleAgenda.Views.ContactTableViewTest do
       assert message =~ "555-555-5555"
       assert message =~ "emergency"
       assert message =~ "02"
+    end
+
+    test "show correct options when there is metadata cursors" do
+      metadata = %Paginator.Page.Metadata{
+        after: "cursor",
+        before: "cursor",
+        limit: 5,
+        total_count: 8,
+        total_count_cap_exceeded: false
+      }
+
+      contacts = []
+
+      message =
+        capture_io(fn ->
+          ContactTableView.render_table(contacts, metadata, 1)
+        end)
+
+      assert message =~ "[A]: Página Anterior"
+      assert message =~ "[P]: Próxima página"
+    end
+
+    test "show correct options when there is'nt metadata cursors" do
+      metadata = %Paginator.Page.Metadata{
+        after: nil,
+        before: nil,
+        limit: 5,
+        total_count: 8,
+        total_count_cap_exceeded: false
+      }
+
+      contacts = []
+
+      message =
+        capture_io(fn ->
+          ContactTableView.render_table(contacts, metadata, 1)
+        end)
+
+      refute message =~ "[A]: Página Anterior"
+      refute message =~ "[P]: Próxima página"
     end
   end
 end
