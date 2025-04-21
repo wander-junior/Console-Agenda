@@ -1,21 +1,23 @@
 # ConsoleAgenda
 
-**TODO: Add description**
+## About
 
-## Installation
+ConsoleAgenda is a simple CLI-based agenda built with [Elixir](https://elixir-lang.org/) as an educational project.  
+It allows users to **create**, **read**, **update**, and **delete** contacts from the terminal.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `console_agenda` to your list of dependencies in `mix.exs`:
+This project was developed by [@wander-junior](https://github.com/wander-junior) with mentorship from [@brunobamaral](https://github.com/brunobamaral), aiming to explore and solidify core back-end concepts using Elixir.
 
-```elixir
-def deps do
-  [
-    {:console_agenda, "~> 0.1.0"}
-  ]
-end
-```
+## Features
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/console_agenda>.
+- Add new contacts with name, phone, and email
+- List all saved contacts
+- Update existing contact information
+- Remove contacts
+- CLI interaction through Elixir functions
 
+## Getting Started
+
+### Prerequisites
+
+- [Elixir](https://elixir-lang.org/install.html)
+- [Docker](https://www.docker.com/) (optional, for containerized setup)
